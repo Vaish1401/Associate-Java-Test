@@ -9,15 +9,12 @@ public class CountDigits {
         int digitCount = countDigits(number);
         System.out.println("Number of digits: " + digitCount);
     }
-
     public static int countDigits(int num) {
         num = Math.abs(num);
         if (num == 0) {
             return 1;
         }
-
         int count = 0;
-
         while (num > 0) {
             num /= 10; // Remove the last digit
             count++;
@@ -26,33 +23,323 @@ public class CountDigits {
     }
 }
 
+
 PROBLEM 2: A supermarket sells thousands of products. Every product is properly packaged and the product packaging shows the total price a customer must pay for the product. The total product price includes taxes and the rate of taxation varies from product to product. For legal reasons, the supermarket must provide invoices to every customer that show the price of each product before taxes, the tax rate and the tax amount. 
 Write a program that takes the net price of a product including taxes and the tax rate, and computes the gross price before taxes. The table below shows some examples for the expected output of the program.
-
+Input-
+Net Price- 99.95,49,999.00,720.00 ,45.00  
+Tax Rate- 0.12 ,0.28,0.05 ,0.00 
+OUTPUT-
+Gross Price- 89.24,39,061.72,685.71,45.00
 
 CODE:
 import java.util.Scanner;
 public class InvoiceCalculator {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        double[] netPrices = {99.95, 49999.00, 720.00, 45.00};
+        double[] taxRates = {0.12, 0.28, 0.05, 0.00};
 
-        System.out.print("Enter the net price of the product: ");
-        double netPrice = scanner.nextDouble();
+        for (int i = 0; i < netPrices.length; i++) {
+            double netPrice = netPrices[i];
+            double taxRate = taxRates[i];
 
-        System.out.print("Enter the tax rate in percentage: ");
-        double taxRate = scanner.nextDouble();
+            double grossPrice = calculateGrossPrice(netPrice, taxRate);
 
-        double grossPrice = calculateGrossPrice(netPrice, taxRate);
-        System.out.println("Net Price: $" + netPrice);
-        System.out.println("Tax Rate: " + taxRate + "%");
-        System.out.println("Gross Price before Taxes: $" + grossPrice);
+            System.out.println("Net Price: $" + netPrice);
+            System.out.println("Tax Rate: " + (taxRate * 100) + "%");
+            System.out.println("Gross Price before Taxes: $" + grossPrice);
+            System.out.println("");
+        }
     }
     public static double calculateGrossPrice(double netPrice, double taxRate) {
-        // Convert tax rate from percentage to decimal
-        double taxRateDecimal = taxRate / 100.0;
-
-        double grossPrice = netPrice / (1 + taxRateDecimal);
+        double grossPrice = netPrice / (1 + taxRate);
         return grossPrice;
     }
 }
+
+
+PROBLEM 3:  Write a program that accepts two numbers and returns the larger of the two.
+CODE:
+import java.util.Scanner;
+public class LargerNumberFinder {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the first number: ");
+        double number1 = scanner.nextDouble();
+
+        System.out.print("Enter the second number: ");
+        double number2 = scanner.nextDouble();
+
+        double largerNumber = findLargerNumber(number1, number2);
+        System.out.println("The larger number is: " + largerNumber);
+    }
+    public static double findLargerNumber(double num1, double num2) {
+        // Use the ternary operator to determine the larger number
+        return (num1 > num2) ? num1 : num2;
+    }
+}
+
+
+PROBLEM 4:  Write a program that finds the median of a sorted array of numbers, where the median of an array is defined as the number exactly in the middle of the sorted array. When the array contains an odd number of numbers, the median is the number exactly in the middle and when the array contains an even number of numbers, the median is the average of the two numbers exactly in the middle. The table below shows some sorted arrays, their middle elements and their medians. 
+Array-
+10.7 
+1.0, 2.0, 3.0
+17.4, 21.1, 39.7, 48.0  
+-957.0, -493.0, -384.0, -268.0, -131.0 
+Median-
+10.7 
+2.0 
+(21.1 + 39.7) / 2 = 60.8 / 2 = 30.4
+-384.0 
+If the array does not contain any number, the program must return -1.0.
+
+CODE-
+import java.util.Arrays;
+public class MedianFinder {
+    public static void main(String[] args) {
+        double[] array1 = {10.7};
+        double[] array2 = {1.0, 2.0, 3.0};
+        double[] array3 = {17.4, 21.1, 39.7, 48.0};
+        double[] array4 = {-957.0, -493.0, -384.0, -268.0, -131.0};
+
+        System.out.println("Median: " + findMedian(array1));
+        System.out.println("Median: " + findMedian(array2));
+        System.out.println("Median: " + findMedian(array3));
+        System.out.println("Median: " + findMedian(array4));
+
+        double[] emptyArray = {};
+        System.out.println("Median: " + findMedian(emptyArray));
+    }
+    public static double findMedian(double[] array) {
+        int length = array.length;
+
+        if (length == 0) {
+            return -1.0;
+        }
+        if (length % 2 == 1) {
+            return array[length / 2];
+        } else {
+            int middle1 = length / 2 - 1;
+            int middle2 = length / 2;
+            return (array[middle1] + array[middle2]) / 2.0;
+        }
+    }
+}
+
+
+PROBLEM 5: Write a program that computes the income tax for a person having specified income, using the income tax rates shown below.
+Taxable Income=
+Up to Rs.2,50,000
+More than Rs.2,50,000 and up to Rs.5,00,000 
+More than Rs.5,00,000 and up to Rs.10,00,000 
+More than Rs.10,00,000 
+Income Tax Rate=
+0% 
+10% of income over Rs.2,50,000
+10% of income over Rs.2,50,000 +20% of income over Rs.5,00,000 
+10% of income over Rs.2,50,000 + 20% of income over Rs.5,00,000+30% of income over Rs.10,00,000 
+The taBle below shows some examples of how the tax rates shown above must be applied for computing the income tax.
+Taxable Income=
+Rs.1,90,000 
+Rs.3,45,000 
+Rs.7,80,000 
+Rs.24,00,000 
+Income Tax=
+0 
+10% x (3,45,000 – 2,50,000) = 10% x 95,000 = 9,500 
+10% x (5,00,000 – 2,50,000) + 20% x (7,80,000 – 5,00,000) = 10% x 2,50,000 + 20% x 2,80,000 = 25,000 + 56,000 = 81,000 
+10% x (5,00,000 – 2,50,000) + 20% x (10,00,000 – 5,00,000) + 30% x (24,00,000 – 10,00,000) = 10% x 2,50,000 + 20% x 5,00,000 + 30% x 14,00,000 = 25,000 + 1,00,000 + 4,20,000 = 5,45,000 
+
+CODE:
+import java.util.Scanner;
+public class IncomeTaxCalculator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the taxable income: Rs.");
+        double taxableIncome = scanner.nextDouble();
+
+        double incomeTax = calculateIncomeTax(taxableIncome);
+        System.out.println("Income Tax: Rs." + incomeTax);
+    }
+    public static double calculateIncomeTax(double taxableIncome) {
+        double incomeTax = 0.0;
+        if (taxableIncome <= 250000) {
+            incomeTax = 0.0;
+        } else if (taxableIncome > 250000 && taxableIncome <= 500000) {
+            incomeTax = 0.1 * (taxableIncome - 250000);
+        } else if (taxableIncome > 500000 && taxableIncome <= 1000000) {
+            incomeTax = 0.1 * (500000 - 250000) + 0.2 * (taxableIncome - 500000);
+        } else if (taxableIncome > 1000000) {
+            incomeTax = 0.1 * (500000 - 250000) + 0.2 * (1000000 - 500000) + 0.3 * (taxableIncome - 1000000);
+        }
+        return incomeTax;
+    }
+}
+
+
+PROBLEM 6: Write a program that finds the string having the most number of vowels from an array of strings. For example, given the array “Sunshine” (3 vowels), “Umbrella” (3 vowels), “Major” (2 vowels), “Resourceful” (5 vowels), the program must return the string “Resourceful”.
+
+CODE:
+public class VowelStringFinder {
+    public static void main(String[] args) {
+        String[] stringArray = {"Sunshine", "Umbrella", "Major", "Resourceful"};
+        String result = findStringWithMostVowels(stringArray);
+        System.out.println("String with the most vowels: " + result);
+    }
+    public static String findStringWithMostVowels(String[] array) {
+        String result = "";
+        int maxVowels = 0;
+        for (String str : array) {
+            int vowelCount = countVowels(str);
+            if (vowelCount > maxVowels) {
+                maxVowels = vowelCount;
+                result = str;
+            }
+        }
+        return result;
+    }
+    public static int countVowels(String str) {
+        int count = 0;
+        String vowels = "aeiouAEIOU";
+
+        for (char ch : str.toCharArray()) {
+            if (vowels.indexOf(ch) != -1) {
+                count++;
+            }
+        }
+        return count;
+    }
+}
+
+PROBLEM 7:Retail inflation is the average yearly increase in prices of common goods sold in retail. For example, if the prices of common goods increase on an average by 10% in a year, the retail inflation is said to be 10%. Write a program that accepts the rate of retail inflation and number of years, and prints the compounded inflation at the end of the specified number of years. For example, if the retail inflation rate is specified as 20% and number of years as 5, the compounded retail inflation at the end of 5 years will be 1.25 = 2.49 = 149%. 
+
+CODE:
+import java.util.Scanner;
+public class InflationCalculator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the retail inflation rate (in percentage): ");
+        double inflationRate = scanner.nextDouble();
+
+        System.out.print("Enter the number of years: ");
+        int numberOfYears = scanner.nextInt();
+
+        double compoundedInflation = calculateCompoundedInflation(inflationRate, numberOfYears);
+        System.out.println("Compounded Retail Inflation after " + numberOfYears + " years: " + compoundedInflation + "%");
+    }
+    public static double calculateCompoundedInflation(double inflationRate, int numberOfYears) {
+        double inflationRateDecimal = inflationRate / 100.0;
+        double compoundedInflation = Math.pow((1 + inflationRateDecimal), numberOfYears) * 100;
+        return compoundedInflation;
+    }
+}
+
+
+PROBLEM 8: Write a program that accepts the number of seconds and returns its time equivalent in days, hours, minutes and seconds. For example, given “21893872” (without quotes), the program must return “253 Day(s) 9 Hour(s) 37 Minute(s) 52 Second(s)” (without quotes).
+
+CODE:
+import java.util.Scanner;
+public class TimeConverter {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the number of seconds: ");
+        long totalSeconds = scanner.nextLong();
+
+        String timeEquivalent = convertSecondsToTime(totalSeconds);
+        System.out.println("Time Equivalent: " + timeEquivalent);
+    }
+    public static String convertSecondsToTime(long totalSeconds) {
+        long days = totalSeconds / (24 * 3600);
+        long hours = (totalSeconds % (24 * 3600)) / 3600;
+        long minutes = ((totalSeconds % (24 * 3600)) % 3600) / 60;
+        long seconds = ((totalSeconds % (24 * 3600)) % 3600) % 60;
+
+        StringBuilder result = new StringBuilder();
+        if (days > 0) {
+            result.append(days).append(" Day(s) ");
+        }
+        if (hours > 0) {
+            result.append(hours).append(" Hour(s) ");
+        }
+        if (minutes > 0) {
+            result.append(minutes).append(" Minute(s) ");
+        }
+        result.append(seconds).append(" Second(s)");
+
+        return result.toString();
+    }
+}
+
+PROBLEM 9: A two-digit special integer is obtained by adding its individual digits to the product of the digits. For example, the special two-digit integer “59” is obtained as “5 + 9 + 5 x 9 = 5 + 9 + 45”. Write a program that accepts an integer and determines if it is a two-digit special integer.
+
+CODE:
+import java.util.Scanner;
+public class SpecialIntegerChecker {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter an integer: ");
+        int number = scanner.nextInt();
+
+        boolean isSpecialInteger = checkSpecialInteger(number);
+        if (isSpecialInteger) {
+            System.out.println(number + " is a two-digit special integer.");
+        } else {
+            System.out.println(number + " is not a two-digit special integer.");
+        }
+    }
+
+    public static boolean checkSpecialInteger(int num) {
+        if (num >= 10 && num <= 99) {
+            int digit1 = num / 10;
+            int digit2 = num % 10;
+            int sumAndProduct = digit1 + digit2 + (digit1 * digit2);
+            return num == sumAndProduct;
+        }
+        return false;
+    }
+}
+
+PROBLEM 10:Write a program that finds the second largest number from an array of unsorted numbers.
+
+CODE:
+import java.util.Scanner;
+public class SecondLargestNumberFinder {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the size of the array: ");
+        int size = scanner.nextInt();
+
+        int[] numbers = new int[size];
+        System.out.println("Enter the array elements:");
+        for (int i = 0; i < size; i++) {
+            numbers[i] = scanner.nextInt();
+        }
+        int secondLargest = findSecondLargest(numbers);
+        System.out.println("Second Largest Number: " + secondLargest);
+    }
+    public static int findSecondLargest(int[] array) {
+        if (array.length < 2) {
+            System.out.println("Array should have at least two elements.");
+            return -1;
+        }
+        int firstLargest = Integer.MIN_VALUE;
+        int secondLargest = Integer.MIN_VALUE;
+
+        for (int num : array) {
+            if (num > firstLargest) {
+                secondLargest = firstLargest;
+                firstLargest = num;
+            } else if (num > secondLargest && num != firstLargest) {
+                secondLargest = num;
+            }
+        }
+        return secondLargest;
+    }
+}
+
+
 
