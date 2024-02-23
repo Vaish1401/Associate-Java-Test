@@ -1,0 +1,58 @@
+PROBLEM 1:  Write a program that prints the number of digits in an integer. For example, given the integer “34” (without quotes) as the input, the program must print “2” (without quotes) as the output, given “-7291” (without quotes), the program must print “4” (without quotes), and so on.
+CODE:
+import java.util.Scanner;
+public class CountDigits {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter an integer: ");
+        int number = scanner.nextInt();
+        int digitCount = countDigits(number);
+        System.out.println("Number of digits: " + digitCount);
+    }
+
+    public static int countDigits(int num) {
+        num = Math.abs(num);
+        if (num == 0) {
+            return 1;
+        }
+
+        int count = 0;
+
+        while (num > 0) {
+            num /= 10; // Remove the last digit
+            count++;
+        }
+        return count;
+    }
+}
+
+PROBLEM 2: A supermarket sells thousands of products. Every product is properly packaged and the product packaging shows the total price a customer must pay for the product. The total product price includes taxes and the rate of taxation varies from product to product. For legal reasons, the supermarket must provide invoices to every customer that show the price of each product before taxes, the tax rate and the tax amount. 
+Write a program that takes the net price of a product including taxes and the tax rate, and computes the gross price before taxes. The table below shows some examples for the expected output of the program.
+
+
+CODE:
+import java.util.Scanner;
+public class InvoiceCalculator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the net price of the product: ");
+        double netPrice = scanner.nextDouble();
+
+        System.out.print("Enter the tax rate in percentage: ");
+        double taxRate = scanner.nextDouble();
+
+        double grossPrice = calculateGrossPrice(netPrice, taxRate);
+        System.out.println("Net Price: $" + netPrice);
+        System.out.println("Tax Rate: " + taxRate + "%");
+        System.out.println("Gross Price before Taxes: $" + grossPrice);
+    }
+    public static double calculateGrossPrice(double netPrice, double taxRate) {
+        // Convert tax rate from percentage to decimal
+        double taxRateDecimal = taxRate / 100.0;
+
+        double grossPrice = netPrice / (1 + taxRateDecimal);
+        return grossPrice;
+    }
+}
+
